@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Poskoky v bulharu",
+        "category": "spodek",
+        "rpe": 10
+    },
+    {
+        "name": "Dřepy 40kg",
+        "category": "spodek",
+        "rpe": 9
+    },
+    {
+        "name": "Skipink na místě",
+        "category": "spodek",
+        "rpe": 6
+    },
+    {
+        "name": "Švihadlo",
+        "category": "spodek",
+        "rpe": 4
+    },
+    {
+        "name": "Kliky na bosu",
+        "category": "vršek",
+        "rpe": 9
+    },
+    {
+        "name": "Lana",
+        "category": "vršek",
+        "rpe": 6
+    },
+    {
+        "name": "Kliky",
+        "category": "vršek",
+        "rpe": 8
+    },
+    {
+        "name": "Back hypers",
+        "category": "trup",
+        "rpe": 6
+    },
+    {
+        "name": "Břicho",
+        "category": "trup",
+        "rpe": 4
+    },
+    {
+        "name": "Medik o zem",
+        "category": "komplex",
+        "rpe": 5
+    },
+    {
+        "name": "Medik 15kg nad hlavu",
+        "category": "komplex",
+        "rpe": 6
+    }
+]
