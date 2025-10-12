@@ -23,6 +23,7 @@ class Generator:
         with open(database_location, 'r', encoding='utf-8') as f:
             raw_data = json.load(f)
 
+
             for data in raw_data:
                 exercise = Exercise(**data)
                 self.database.append(exercise)
@@ -30,8 +31,8 @@ class Generator:
     def generate_training(self, number_of_exercises, difficulty):
         
         rules = [
-        (0.70, 0.30, 0.00),
-        (0.34, 0.60, 0.06),
+        (0.75, 0.25, 0.00),
+        (0.40, 0.55, 0.05),
         (0.15, 0.65, 0.20),
         (0.00, 0.60, 0.40)
         ]
@@ -101,6 +102,36 @@ class Generator:
     
         random.shuffle(training_rpe)
 
-        final_training_array = np.array(training_rpe)
+        training_array = np.array(training_rpe)
+
+        current_average = np.mean(training_array)
+
+        difficulty_rpe = [5.1, 6.1, 7.1, 8.1]
+        tolerance = 0.25
+        target_average = difficulty_rpe[difficulty]
+
+        while abs(current_average - target_average) > tolerance:
+            
+            if current_average > target_average:
+
+                possible_indices = np.where(training_array > 4)[0]
+
+                index_to_change = np.random.choice(possible_indices)
+
+                training_array[index_to_change] -= 1
+
+            elif current_average < target_average:
+
+                possible_indices = np.where(training_array < 10)[0]
+
+                index_to_change = np.random.choice(possible_indices)
+
+                training_array[index_to_change] += 1
+
+            
+            current_average = np.mean(training_array)
+
+        
+        final_training_array = training_array
 
         return final_training_array
