@@ -2,6 +2,7 @@ import json
 import math
 import random
 import numpy as np
+from collections import defaultdict
 
 class Exercise:
     def __init__(self, name, category, rpe):
@@ -16,6 +17,15 @@ class Training:
         self.exercise_list = []
 
 
+class GenerationFailedError(Exception):
+    """Výjimka pro případ, kdy se nepodařilo vytvořit trénink"""
+    pass
+
+class DatabaseError(Exception):
+    """Chyba databáze, žádné cviky k načtení"""
+    pass
+
+
 class Generator:
     def __init__(self, database_location):
         self.database = []
@@ -23,10 +33,14 @@ class Generator:
         with open(database_location, 'r', encoding='utf-8') as f:
             raw_data = json.load(f)
 
-
             for data in raw_data:
-                exercise = Exercise(**data)
-                self.database.append(exercise)
+                try:   
+                    exercise = Exercise(**data)
+                    self.database.append(exercise)
+
+                except TypeError:
+                    raise DatabaseError
+
 
         self.rpe_ranges = {
             'low': [4, 5],
@@ -45,15 +59,25 @@ class Generator:
         if not (8 <= number_of_exercises <= 15):
             raise ValueError("Nesprávný počet stanovišť")
         
-        counts = self._calculate_rpe_counts(number_of_exercises, difficulty)
 
-        initial_array = self._generate_initial_rpe_array(counts)
+        while True:
 
-        optimized_array = self._optimize_rpe_array(initial_array, difficulty)
+            try:
 
+                counts = self._calculate_rpe_counts(number_of_exercises, difficulty)
 
+                initial_array = self._generate_initial_rpe_array(counts)
 
-        return optimized_array
+                optimized_array = self._optimize_rpe_array(initial_array, difficulty)
+
+                quotas = self._calculate_exercises_quotas(number_of_exercises)
+
+                final_training = self._assign_exercises(optimized_array, quotas)
+
+                return final_training
+            
+            except GenerationFailedError:
+                pass
 
 
     def _calculate_rpe_counts(self, number_of_exercises, difficulty):
@@ -159,6 +183,115 @@ class Generator:
 
         return final_training_array
     
-    
+
+    def _calculate_exercises_quotas(self, number_of_exercises):
+
+        complex_count = self._complex_probability(number_of_exercises)
+        lower_count = round(number_of_exercises * np.random.uniform(0.4, 0.5), 0)
+
+        exesses_count = number_of_exercises - (complex_count + lower_count)
+        exesses_half = exesses_count // 2
+        exesses_remainder = exesses_count % 2
+
+        upper_count = exesses_half + exesses_remainder
+        trunk_count = exesses_half
+
+
+        quotas = {
+            'lower': lower_count,
+            'upper': upper_count,
+            'trunk': trunk_count,
+            'complex': complex_count
+        }
+
+
+        return quotas
+
+
+    def _complex_probability(self, number_of_exercises):
+
+        if number_of_exercises <= 8:
+            p = 0.4
+        
+        elif number_of_exercises >= 15:
+            p = 1.0
+        
+        else:
+            p = 0.4 + (number_of_exercises-8) / 7 * 0.6
+
+        return np.random.choice([1, 0], p=[p, 1-p])
+
+
     def _assign_exercises(self, rpe_array, quotas):
-        pass
+        
+        lower_count = quotas['lower']
+        upper_count = quotas['upper']
+        trunk_count = quotas['trunk']
+        complex_count = quotas['complex']
+
+        rpe_list = list(rpe_array)
+        all_exercises = self.database.copy()
+        selected_exercises = []
+
+        complex_category = [exercise for exercise in all_exercises if exercise.category == 'complex']
+        trunk_category = [exercise for exercise in all_exercises if exercise.category == 'trunk']
+        upper_category = [exercise for exercise in all_exercises if exercise.category == 'upper']
+        lower_category = [exercise for exercise in all_exercises if exercise.category == 'lower']
+
+        result_complex = self._fill_category(rpe_list, complex_category, complex_count)
+        selected_complex_exercises = result_complex['exercises']
+        remaining_rpe_list = result_complex['remaining_rpe_list']
+        selected_exercises.extend(selected_complex_exercises)
+
+        result_trunk = self._fill_category(remaining_rpe_list, trunk_category, trunk_count)
+        selected_trunk_exercises = result_trunk['exercises']
+        remaining_rpe_list = result_trunk['remaining_rpe_list']
+        selected_exercises.extend(selected_trunk_exercises)
+
+        result_upper = self._fill_category(remaining_rpe_list, upper_category, upper_count)
+        selected_complex_exercises = result_upper['exercises']
+        remaining_rpe_list = result_upper['remaining_rpe_list']
+        selected_exercises.extend(selected_trunk_exercises)
+
+        result_lower = self._fill_category(remaining_rpe_list, lower_category, lower_count)
+        selected_lower_exercises = result_lower['exercises']
+        remaining_rpe_list = result_lower['remaining_rpe_list']
+        selected_exercises.extend(selected_lower_exercises)
+
+        return selected_exercises
+
+    def _fill_category(self, rpe_list, exercises_by_category, quota):
+
+        rpe_index = defaultdict(list)
+        category_selected_exercises = []
+
+        for exercise in exercises_by_category:
+            rpe_index[exercise.rpe].append(exercise)
+
+        while quota > 0:
+            
+            if set(rpe_list) & set(rpe_index.keys()):
+
+                available_rpe = set(rpe_list) & set(rpe_index.keys())
+                selected_rpe = random.choice(list(available_rpe))
+
+                selected_exercise = random.choice(rpe_index[selected_rpe])
+                category_selected_exercises.append(selected_exercise)
+                rpe_index[selected_rpe].remove(selected_exercise)
+
+                if not rpe_index[selected_rpe]:
+                    del rpe_index[selected_rpe]
+
+                quota -= 1
+                rpe_list.remove(selected_rpe)
+
+
+            else:
+                raise GenerationFailedError
+            
+        result = {
+            'exercises': category_selected_exercises,
+            'remaining_rpe_list': rpe_list
+        }
+
+        return result

@@ -1,57 +1,257 @@
 [
-    {
-        "name": "Poskoky v bulharu",
-        "category": "spodek",
-        "rpe": 10
-    },
-    {
-        "name": "Dřepy 40kg",
-        "category": "spodek",
-        "rpe": 9
-    },
-    {
-        "name": "Skipink na místě",
-        "category": "spodek",
-        "rpe": 6
-    },
-    {
-        "name": "Švihadlo",
-        "category": "spodek",
-        "rpe": 4
-    },
-    {
-        "name": "Kliky na bosu",
-        "category": "vršek",
-        "rpe": 9
-    },
-    {
-        "name": "Lana",
-        "category": "vršek",
-        "rpe": 6
-    },
-    {
-        "name": "Kliky",
-        "category": "vršek",
-        "rpe": 8
-    },
-    {
-        "name": "Back hypers",
-        "category": "trup",
-        "rpe": 6
-    },
-    {
-        "name": "Břicho",
-        "category": "trup",
-        "rpe": 4
-    },
-    {
-        "name": "Medik o zem",
-        "category": "komplex",
-        "rpe": 5
-    },
-    {
-        "name": "Medik 15kg nad hlavu",
-        "category": "komplex",
-        "rpe": 6
-    }
+  {
+    "name": "Poskoky v bulharu",
+    "category": "lower",
+    "rpe": 10
+  },
+  {
+    "name": "Výskoky s osou",
+    "category": "lower",
+    "rpe": 10
+  },
+  {
+    "name": "Dřepy 40kg",
+    "category": "lower",
+    "rpe": 9
+  },
+  {
+    "name": "Přeskoky ve výpadu",
+    "category": "lower",
+    "rpe": 9
+  },
+  {
+    "name": "Výskoky z podřepu",
+    "category": "lower",
+    "rpe": 8
+  },
+  {
+    "name": "Výskoky ze sedu",
+    "category": "lower",
+    "rpe": 8
+  },
+  {
+    "name": "Houpání v kleku s kotoučem",
+    "category": "lower",
+    "rpe": 8
+  },
+  {
+    "name": "Zakopávání stroj",
+    "category": "lower",
+    "rpe": 8
+  },
+  {
+    "name": "Legpress",
+    "category": "lower",
+    "rpe": 7
+  },
+  {
+    "name": "Výskoky ze sedu jednonož",
+    "category": "lower",
+    "rpe": 7
+  },
+  {
+    "name": "Výpadová chůze s výskokem",
+    "category": "lower",
+    "rpe": 7
+  },
+  {
+    "name": "Switches v leže",
+    "category": "lower",
+    "rpe": 7
+  },
+  {
+    "name": "Výstupy s výskokem",
+    "category": "lower",
+    "rpe": 7
+  },
+  {
+    "name": "Skipink s gumou",
+    "category": "lower",
+    "rpe": 7
+  },
+  {
+    "name": "Single leg RDL 10kg",
+    "category": "lower",
+    "rpe": 6
+  },
+  {
+    "name": "Výpady dozadu",
+    "category": "lower",
+    "rpe": 6
+  },
+  {
+    "name": "Metcalfy",
+    "category": "lower",
+    "rpe": 6
+  },
+  {
+    "name": "Zdvihy kotouč",
+    "category": "lower",
+    "rpe": 6
+  },
+  {
+    "name": "Dřepy na bosu",
+    "category": "lower",
+    "rpe": 6
+  },
+  {
+    "name": "Skipink na místě",
+    "category": "lower",
+    "rpe": 6
+  },
+  {
+    "name": "Výdrž ve dřepu o zeď",
+    "category": "lower",
+    "rpe": 5
+  },
+  {
+    "name": "Výdrž ve dřepu na bosu",
+    "category": "lower",
+    "rpe": 5
+  },
+  {
+    "name": "Výpady stranou",
+    "category": "lower",
+    "rpe": 5
+  },
+  {
+    "name": "Výpadová chůze",
+    "category": "lower",
+    "rpe": 5
+  },
+  {
+    "name": "Švihadlo",
+    "category": "lower",
+    "rpe": 4
+  },
+  {
+    "name": "Výpady na bosu",
+    "category": "lower",
+    "rpe": 4
+  },
+  {
+    "name": "Výrazy 15kg od prsou",
+    "category": "upper",
+    "rpe": 10
+  },
+  {
+    "name": "Lateral a front raises 2kg",
+    "category": "upper",
+    "rpe": 10
+  },
+  {
+    "name": "Kliky na bosu",
+    "category": "upper",
+    "rpe": 9
+  },
+  {
+    "name": "Přítahy v leže",
+    "category": "upper",
+    "rpe": 9
+  },
+  {
+    "name": "Vzpažování 10kg v sedě",
+    "category": "upper",
+    "rpe": 9
+  },
+  {
+    "name": "Kliky",
+    "category": "upper",
+    "rpe": 8
+  },
+  {
+    "name": "Bench",
+    "category": "upper",
+    "rpe": 7
+  },
+  {
+    "name": "Běžecké ruce 2kg",
+    "category": "upper",
+    "rpe": 7
+  },
+  {
+    "name": "Lana",
+    "category": "upper",
+    "rpe": 6
+  },
+  {
+    "name": "Mediky koulařsky o zem",
+    "category": "upper",
+    "rpe": 5
+  },
+  {
+    "name": "Outové hody 2kg",
+    "category": "upper",
+    "rpe": 5
+  },
+  {
+    "name": "Back hypers jednonož",
+    "category": "trunk",
+    "rpe": 7
+  },
+  {
+    "name": "Back hypers na bedně",
+    "category": "trunk",
+    "rpe": 7
+  },
+  {
+    "name": "TRX břicho",
+    "category": "trunk",
+    "rpe": 7
+  },
+  {
+    "name": "Back hypers",
+    "category": "trunk",
+    "rpe": 6
+  },
+  {
+    "name": "Pullover odhody mediku 5kg",
+    "category": "trunk",
+    "rpe": 5
+  },
+  {
+    "name": "Mediky na břicho",
+    "category": "trunk",
+    "rpe": 4
+  },
+  {
+    "name": "Břicho",
+    "category": "trunk",
+    "rpe": 4
+  },
+  {
+    "name": "Záda",
+    "category": "trunk",
+    "rpe": 4
+  },
+  {
+    "name": "Medík do stran",
+    "category": "trunk",
+    "rpe": 4
+  },
+  {
+    "name": "Medik 15kg nad hlavu",
+    "category": "complex",
+    "rpe": 6
+  },
+  {
+    "name": "Odrazy snožmo přes pytel ve vzporu",
+    "category": "complex",
+    "rpe": 6
+  },
+  {
+    "name": "Medik o zem",
+    "category": "complex",
+    "rpe": 5
+  },
+  {
+    "name": "Balance na gymballu",
+    "category": "complex",
+    "rpe": 1
+  },
+  {
+    "name": "Balance na čočce",
+    "category": "complex",
+    "rpe": 1
+  }
 ]
