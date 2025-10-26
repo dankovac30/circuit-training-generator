@@ -12,9 +12,37 @@ class Exercise:
 
 
 class Training:
-    def __init__(self, difficulty_level):
-        self.difficulty_level = difficulty_level
-        self.exercise_list = []
+    def __init__(self, database_location):
+        self.database_location = database_location
+        
+    def print_training(self, difficulty_level, number_of_exercises):
+        
+        training_generator = Generator(self.database_location)
+        generated_training = training_generator.generate_training(number_of_exercises, difficulty_level)
+
+        categories = defaultdict(list)
+
+        category_translation = {
+            'upper': 'Horní část těla',
+            'lower': 'Spodní část těla',
+            'trunk': 'Střed těla',
+            'complex': 'Komplexní'
+        }
+
+        print('\n--- Trénink ---')
+
+        for ex in generated_training:
+            categories[ex.category].append(ex)
+
+
+        for cat, exercises in categories.items():
+            cz_cat = category_translation.get(cat, cat)
+            print(f'\n--- {cz_cat.upper()} ---')
+            
+            for ex in exercises:
+                print(f'{ex.name:30} - RPE {ex.rpe}')
+
+        print('\n')
 
 
 class GenerationFailedError(Exception):
@@ -249,14 +277,17 @@ class Generator:
         selected_exercises.extend(selected_trunk_exercises)
 
         result_upper = self._fill_category(remaining_rpe_list, upper_category, upper_count)
-        selected_complex_exercises = result_upper['exercises']
+        selected_upper_exercises = result_upper['exercises']
         remaining_rpe_list = result_upper['remaining_rpe_list']
-        selected_exercises.extend(selected_trunk_exercises)
+        selected_exercises.extend(selected_upper_exercises)
 
         result_lower = self._fill_category(remaining_rpe_list, lower_category, lower_count)
         selected_lower_exercises = result_lower['exercises']
         remaining_rpe_list = result_lower['remaining_rpe_list']
         selected_exercises.extend(selected_lower_exercises)
+
+        order = {'lower': 0, 'upper': 1, 'trunk': 2, 'complex': 3}
+        selected_exercises.sort(key=lambda x: order[x.category])
 
         return selected_exercises
 

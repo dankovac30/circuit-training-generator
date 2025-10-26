@@ -1,10 +1,6 @@
-from generator import Generator
+from generator import Training
 import numpy as np
 
-generator_treninku = Generator('exercises.json')
+database = Training('exercises.json')
 
-
-
-trenink = generator_treninku.generate_training(13, 1)
-
-print([ex.name for ex in trenink])
+training = database.print_training(1, 12)
