@@ -1,6 +1,8 @@
+from generator import Generator
 from generator import Training
 import numpy as np
 
-database = Training('exercises.json')
+generator = Generator('exercises.json')
+printer = Training(generator)
 
-training = database.print_training(1, 12)
+training1 = printer.print_training(1, 12)

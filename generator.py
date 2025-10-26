@@ -12,13 +12,12 @@ class Exercise:
 
 
 class Training:
-    def __init__(self, database_location):
-        self.database_location = database_location
+    def __init__(self, generator):
+        self.generator = generator
         
     def print_training(self, difficulty_level, number_of_exercises):
         
-        training_generator = Generator(self.database_location)
-        generated_training = training_generator.generate_training(number_of_exercises, difficulty_level)
+        generated_training = self.generator.generate_training(number_of_exercises, difficulty_level)
 
         categories = defaultdict(list)
 
@@ -252,39 +251,20 @@ class Generator:
 
     def _assign_exercises(self, rpe_array, quotas):
         
-        lower_count = quotas['lower']
-        upper_count = quotas['upper']
-        trunk_count = quotas['trunk']
-        complex_count = quotas['complex']
-
         rpe_list = list(rpe_array)
         all_exercises = self.database.copy()
         selected_exercises = []
 
-        complex_category = [exercise for exercise in all_exercises if exercise.category == 'complex']
-        trunk_category = [exercise for exercise in all_exercises if exercise.category == 'trunk']
-        upper_category = [exercise for exercise in all_exercises if exercise.category == 'upper']
-        lower_category = [exercise for exercise in all_exercises if exercise.category == 'lower']
+        category_order = ['complex', 'trunk', 'upper','lower']
 
-        result_complex = self._fill_category(rpe_list, complex_category, complex_count)
-        selected_complex_exercises = result_complex['exercises']
-        remaining_rpe_list = result_complex['remaining_rpe_list']
-        selected_exercises.extend(selected_complex_exercises)
+        for category_name in category_order:
 
-        result_trunk = self._fill_category(remaining_rpe_list, trunk_category, trunk_count)
-        selected_trunk_exercises = result_trunk['exercises']
-        remaining_rpe_list = result_trunk['remaining_rpe_list']
-        selected_exercises.extend(selected_trunk_exercises)
+            category_list = [exercise for exercise in all_exercises if exercise.category == category_name]
+            category_count = quotas[category_name]
 
-        result_upper = self._fill_category(remaining_rpe_list, upper_category, upper_count)
-        selected_upper_exercises = result_upper['exercises']
-        remaining_rpe_list = result_upper['remaining_rpe_list']
-        selected_exercises.extend(selected_upper_exercises)
-
-        result_lower = self._fill_category(remaining_rpe_list, lower_category, lower_count)
-        selected_lower_exercises = result_lower['exercises']
-        remaining_rpe_list = result_lower['remaining_rpe_list']
-        selected_exercises.extend(selected_lower_exercises)
+            result = self._fill_category(rpe_list, category_list, category_count)
+            rpe_list = result['remaining_rpe_list']
+            selected_exercises.extend(result['exercises'])
 
         order = {'lower': 0, 'upper': 1, 'trunk': 2, 'complex': 3}
         selected_exercises.sort(key=lambda x: order[x.category])
