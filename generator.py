@@ -3,6 +3,7 @@ import math
 import random
 import numpy as np
 from collections import defaultdict
+import sqlite3
 
 class Exercise:
     def __init__(self, name, category, rpe):
@@ -57,12 +58,14 @@ class Generator:
     def __init__(self, database_location):
         self.database = []
 
-        with open(database_location, 'r', encoding='utf-8') as f:
-            raw_data = json.load(f)
+        with sqlite3.connect(database_location) as conn:
+            c = conn.cursor()
+            c.execute('SELECT * FROM exercises')
+            raw_data = c.fetchall()
 
             for data in raw_data:
                 try:   
-                    exercise = Exercise(**data)
+                    exercise = Exercise(*data)
                     self.database.append(exercise)
 
                 except TypeError:
