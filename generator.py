@@ -40,7 +40,7 @@ class Training:
             print(f'\n--- {cz_cat.upper()} ---')
             
             for ex in exercises:
-                print(f'{ex.name:30} - RPE {ex.rpe}')
+                print(f'{ex.name:40} - RPE {ex.rpe}')
 
         print('\n')
 
@@ -48,6 +48,7 @@ class Training:
 class GenerationFailedError(Exception):
     """Výjimka pro případ, kdy se nepodařilo vytvořit trénink"""
     pass
+
 
 class DatabaseError(Exception):
     """Chyba databáze, žádné cviky k načtení"""
