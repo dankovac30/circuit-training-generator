@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from collections import defaultdict
+from main_cli import resource_path
 
 from generator import (
     Generator, 
@@ -52,7 +53,7 @@ def start_generating():
 if __name__ == "__main__":
 
     try:
-        database_location = ('exercises.db')
+        database_location = resource_path('exercises.db')
         generator = Generator(database_location)
 
     except DatabaseError as e:
