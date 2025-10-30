@@ -3,7 +3,19 @@ from generator import Training
 from generator import GenerationFailedError
 from generator import DatabaseError
 import numpy as np
+import sys
+import os
 
+
+def resource_path(relative_path):
+
+    try:
+        base_path = sys._MEIPASS
+    
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 def get_difficulty_level():
 
@@ -49,9 +61,9 @@ def get_number_of_exercises(min=8, max=15):
 
 if __name__ == '__main__':
     
-    database_location = 'exercises.db'
-
     try:
+
+        database_location = resource_path('exercises.db')
         generator = Generator(database_location)
         printer = Training(generator)
 
